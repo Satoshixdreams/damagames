@@ -21,7 +21,18 @@ export class PeerService {
     // Clean up old peer if exists
     if (this.peer) this.peer.destroy();
 
-    this.peer = new PeerClass();
+    this.peer = new PeerClass({
+      host: '0.peerjs.com',
+      port: 443,
+      secure: true,
+      path: '/',
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:global.stun.twilio.com:3478?transport=udp' }
+        ]
+      }
+    } as any);
     
     this.peer.on('open', (id) => {
       console.log('My Peer ID is: ' + id);
@@ -36,17 +47,34 @@ export class PeerService {
       console.error('PeerJS error', err);
     });
 
+    this.peer.on('disconnected', () => {
+      try {
+        this.peer?.reconnect();
+      } catch {}
+    });
+
     return ""; // Async ID return via callback
   }
 
   // Connect to a specific ID (Guest)
   connect(remoteId: string, onOpen: () => void) {
     if (this.peer) this.peer.destroy();
-    this.peer = new PeerClass(); // Create a fresh peer to connect with
+    this.peer = new PeerClass({
+      host: '0.peerjs.com',
+      port: 443,
+      secure: true,
+      path: '/',
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:global.stun.twilio.com:3478?transport=udp' }
+        ]
+      }
+    } as any); // Create a fresh peer to connect with
     
     this.peer.on('open', () => {
       if (!this.peer) return;
-      const conn = this.peer.connect(remoteId);
+      const conn = this.peer.connect(remoteId, { reliable: true });
       this.setupConnection(conn);
       // Wait for connection to be open
       conn.on('open', () => {
@@ -73,6 +101,11 @@ export class PeerService {
       console.log("Connection closed");
       alert("Opponent disconnected.");
       this.conn = null;
+    });
+
+    conn.on('error', (err: any) => {
+      console.error('Connection error', err);
+      alert('Connection error. Please try re-sharing the invite link.');
     });
   }
 
