@@ -9,7 +9,7 @@ import { getBestMove } from './utils/aiLogic';
 import { connectWallet, checkIfWalletIsConnected, listenToAccountChanges, ensureBaseNetwork } from './services/web3Service';
 import { peerService, PeerMessage } from './services/peerService';
 import { initFarcaster, getFarcasterContext, FarcasterUser, openExternalUrl, addMiniAppAndEnableNotifications, sendSelfNotification } from './services/farcasterService';
-import { RotateCcw, Trophy, BrainCircuit, Cpu, User, BookOpen, X, Wallet, Repeat, Globe, ArrowRight, Loader2, BarChart3, Share2, Link, CheckCheck } from 'lucide-react';
+import { RotateCcw, Trophy, BrainCircuit, Cpu, User, BookOpen, X, Wallet, Repeat, Globe, ArrowRight, Loader2, BarChart3, Share2, Link, CheckCheck, Bell, Smartphone, Plus } from 'lucide-react';
 
 const App: React.FC = () => {
   // Game State
@@ -719,14 +719,22 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* Floating Action Buttons */}
-      <div className="fixed top-2 left-2 md:bottom-6 md:left-6 md:top-auto z-40 flex flex-col md:flex-row gap-2">
-        <button onClick={() => setShowLeaderboard(true)} className="p-2 md:p-3 bg-slate-800/90 backdrop-blur border border-slate-600 rounded-full text-amber-400 hover:text-amber-300 shadow-xl transition-transform hover:scale-105">
-          <BarChart3 className="w-5 h-5" />
-        </button>
-        <button onClick={() => setShowRules(true)} className="p-2 md:p-3 bg-slate-800/90 backdrop-blur border border-slate-600 rounded-full text-slate-300 hover:text-white shadow-xl transition-transform hover:scale-105">
-          <BookOpen className="w-5 h-5" />
-        </button>
+      {/* Bottom Bar: Leaderboard & Rules */}
+      <div className="fixed bottom-4 left-0 right-0 z-40 flex justify-center">
+        <div className="bg-slate-800/90 backdrop-blur border border-slate-700 rounded-full px-3 py-2 shadow-xl flex gap-2">
+          <button onClick={() => setShowLeaderboard(true)} className="px-3 py-2 rounded-full text-amber-300 hover:text-amber-200 hover:bg-slate-700/50 flex items-center gap-2">
+            <BarChart3 className="w-5 h-5" />
+            <span className="text-xs font-bold hidden sm:inline">Leaderboard</span>
+          </button>
+          <button onClick={() => setShowRules(true)} className="px-3 py-2 rounded-full text-slate-200 hover:text-white hover:bg-slate-700/50 flex items-center gap-2">
+            <BookOpen className="w-5 h-5" />
+            <span className="text-xs font-bold hidden sm:inline">Checkers Rules</span>
+          </button>
+          <button onClick={() => setShowAddMiniApp(true)} className="px-3 py-2 rounded-full text-violet-300 hover:text-violet-200 hover:bg-slate-700/50 flex items-center gap-2">
+            <Plus className="w-5 h-5" />
+            <span className="text-xs font-bold hidden sm:inline">Add Mini App</span>
+          </button>
+        </div>
       </div>
 
       {showConnectModal && (
@@ -765,7 +773,7 @@ const App: React.FC = () => {
               <div className="w-24 h-40 mx-auto bg-slate-800 rounded-xl mb-4"></div>
               <h3 className="text-white text-xl font-bold text-center">Confirm it's you</h3>
               <p className="text-slate-400 text-xs text-center mt-1">Click Continue below and tap Approve on your Farcaster mobile app to start using your wallet on web.</p>
-              <button onClick={async () => { try { await initFarcaster(); const fcUser = await getFarcasterContext(); if (fcUser) { const fcId = `fc-${fcUser.fid}`; setFarcasterUser(fcUser); setIdentityId(fcId); setUserProfile(loadProfile(fcId)); setShowFcConfirm(false); setShowConnectModal(false); setShowAddMiniApp(true); } } catch { } }} className="mt-6 w-full py-3 bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-full">Continue</button>
+              <button onClick={async () => { try { await initFarcaster(); const fcUser = await getFarcasterContext(); if (fcUser) { const fcId = `fc-${fcUser.fid}`; setFarcasterUser(fcUser); setIdentityId(fcId); setUserProfile(loadProfile(fcId)); setShowFcConfirm(false); setShowConnectModal(false); setShowAddMiniApp(true); } } catch { } }} className="mt-6 w-full py-3 bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-full">Continue</button>
               <p className="text-slate-500 text-[10px] text-center mt-2">You'll stay signed in for 30 days on this browser.</p>
               <button onClick={() => { setShowFcConfirm(false); }} className="mt-2 w-full py-2 text-slate-500">Cancel</button>
             </div>
@@ -777,17 +785,20 @@ const App: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="bg-slate-900 rounded-2xl max-w-sm w-full overflow-hidden">
             <div className="p-6">
-              <div className="w-16 h-16 mx-auto rounded-xl overflow-hidden mb-3">
+              <div className="w-16 h-16 mx-auto rounded-xl overflow-hidden mb-3 relative">
                 <img src="/checkers-logo.png" alt="Checkers Logo" className="w-full h-full object-cover" />
+                <div className="absolute -top-1 -right-1 bg-violet-600 text-white rounded-full p-1 shadow">
+                  <Plus className="w-3 h-3" />
+                </div>
               </div>
               <h3 className="text-white text-lg font-bold text-center">Add Mini App: Checkers</h3>
               <div className="mt-3 space-y-2">
-                <label className="flex items-center justify-between bg-slate-800 rounded-lg p-3 text-slate-200 text-sm"><span>Add to Farcaster</span><input type="checkbox" checked={addToFarcaster} onChange={(e) => setAddToFarcaster(e.target.checked)} /></label>
-                <label className="flex items-center justify-between bg-slate-800 rounded-lg p-3 text-slate-200 text-sm"><span>Enable notifications</span><input type="checkbox" checked={enableNotifications} onChange={(e) => setEnableNotifications(e.target.checked)} /></label>
+                <label className="flex items-center justify-between bg-slate-800 rounded-lg p-3 text-slate-200 text-sm"><span className="flex items-center gap-2"><Smartphone className="w-4 h-4 text-violet-400" /> Add to Farcaster</span><input type="checkbox" checked={addToFarcaster} onChange={(e) => setAddToFarcaster(e.target.checked)} /></label>
+                <label className="flex items-center justify-between bg-slate-800 rounded-lg p-3 text-slate-200 text-sm"><span className="flex items-center gap-2"><Bell className="w-4 h-4 text-violet-400" /> Enable notifications</span><input type="checkbox" checked={enableNotifications} onChange={(e) => setEnableNotifications(e.target.checked)} /></label>
               </div>
               <div className="mt-4 flex gap-2">
                 <button onClick={() => { setShowAddMiniApp(false); }} className="flex-1 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-bold">Cancel</button>
-                <button onClick={async () => { const res = await addMiniAppAndEnableNotifications(); if (res.added) { await sendSelfNotification('Welcome', 'Checkers ready', window.location.href); } setShowAddMiniApp(false); }} className="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-bold">Confirm</button>
+                <button onClick={async () => { const res = await addMiniAppAndEnableNotifications(); if (res.added && enableNotifications) { await sendSelfNotification('Welcome', 'Checkers ready', window.location.href); } setShowAddMiniApp(false); }} className="flex-1 py-2 bg-violet-600 hover:bg-violet-500 text-white rounded-lg font-bold">Confirm</button>
               </div>
             </div>
           </div>
