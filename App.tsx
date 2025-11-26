@@ -431,6 +431,7 @@ const App: React.FC = () => {
   };
 
   const joinGame = (code?: string) => {
+    if (!farcasterUser) { setShowConnectModal(true); return; }
     const codeToJoin = code || remotePeerIdInput;
     if (!codeToJoin) return;
     // Ensure mode is Online
@@ -610,25 +611,27 @@ const App: React.FC = () => {
                     </button>
                   )}
 
-                  {!showJoinInput ? (
-                    <div className="text-center mt-2">
-                      <button onClick={() => setShowJoinInput(true)} className="text-[10px] text-slate-400 underline hover:text-white flex items-center justify-center gap-1 w-full">
-                        <Link className="w-3 h-3" /> Have a code? Enter it here
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="text-center mt-2 animate-in fade-in slide-in-from-top-2">
-                      <div className="flex gap-2">
-                        <input
-                          value={remotePeerIdInput}
-                          onChange={(e) => setRemotePeerIdInput(e.target.value)}
-                          placeholder="Paste Code"
-                          className="flex-1 bg-black/30 border border-slate-600 rounded px-3 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 text-left"
-                        />
-                        <button onClick={() => joinGame()} className="px-4 bg-slate-700 hover:bg-slate-600 text-white text-xs rounded font-bold">Join</button>
+                  {farcasterUser && (
+                    !showJoinInput ? (
+                      <div className="text-center mt-2">
+                        <button onClick={() => setShowJoinInput(true)} className="text-[10px] text-slate-400 underline hover:text-white flex items-center justify-center gap-1 w-full">
+                          <Link className="w-3 h-3" /> Have a code? Enter it here
+                        </button>
                       </div>
-                      <button onClick={() => setShowJoinInput(false)} className="text-[10px] text-slate-500 mt-2 hover:text-slate-400">Cancel</button>
-                    </div>
+                    ) : (
+                      <div className="text-center mt-2 animate-in fade-in slide-in-from-top-2">
+                        <div className="flex gap-2">
+                          <input
+                            value={remotePeerIdInput}
+                            onChange={(e) => setRemotePeerIdInput(e.target.value)}
+                            placeholder="Paste Code"
+                            className="flex-1 bg-black/30 border border-slate-600 rounded px-3 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 text-left"
+                          />
+                          <button onClick={() => joinGame()} className="px-4 bg-slate-700 hover:bg-slate-600 text-white text-xs rounded font-bold">Join</button>
+                        </div>
+                        <button onClick={() => setShowJoinInput(false)} className="text-[10px] text-slate-500 mt-2 hover:text-slate-400">Cancel</button>
+                      </div>
+                    )
                   )}
                 </div>
               )}
