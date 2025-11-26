@@ -42,6 +42,8 @@ const App: React.FC = () => {
   // AI Advice State
   const [advice, setAdvice] = useState<string>("");
   const [isLoadingAdvice, setIsLoadingAdvice] = useState(false);
+  const [hintMove, setHintMove] = useState<Move | null>(null);
+  const [boardTheme, setBoardTheme] = useState<'classic' | 'neon' | 'turkish'>('turkish');
 
   // Online State
   const [myPeerId, setMyPeerId] = useState<string | null>(null);
@@ -262,6 +264,7 @@ const App: React.FC = () => {
     setMustCaptureFrom(nextMustCaptureFrom);
     setCurrentPlayer(nextPlayer);
     setAdvice("");
+    setHintMove(null);
   };
 
   const undoLastMove = () => {
@@ -289,6 +292,7 @@ const App: React.FC = () => {
     setValidMoves([]);
     setMustCaptureFrom(null);
     setAdvice("");
+    setHintMove(null);
     setIsAiThinking(false);
     setXpGained(null);
     setHistory([]);
@@ -320,7 +324,9 @@ const App: React.FC = () => {
     if (winner) return;
     setIsLoadingAdvice(true);
     const tip = await getGeminiAdvice(board, currentPlayer);
+    const best = await getBestMove(board, currentPlayer, 3, mustCaptureFrom);
     setAdvice(tip);
+    setHintMove(best || null);
     setIsLoadingAdvice(false);
   };
 
@@ -454,7 +460,7 @@ const App: React.FC = () => {
     const url = new URL(window.location.href);
     url.searchParams.set('join', myPeerId);
     const shareUrl = url.toString();
-    const shareText = "Play Turkish Dama with me! 🟢 vs ⚪️";
+    const shareText = gameMode === GameMode.ONLINE ? "Playing now: Turkish Dama 🟢 vs ⚪️ — join me!" : "Training Turkish Dama — come watch or play!";
     setShareBtnLabel("Opening...");
     const composeUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
     openExternalUrl(composeUrl);
@@ -484,6 +490,8 @@ const App: React.FC = () => {
             validMoves={validMoves}
             onSquareClick={handleSquareClick}
             isRotated={isRotated}
+            hintMove={hintMove}
+            theme={boardTheme}
           />
         </div>
 
@@ -560,6 +568,14 @@ const App: React.FC = () => {
           <div className="flex bg-slate-900 p-1 rounded-lg mb-4 border border-slate-700 gap-1">
             <button onClick={() => toggleGameMode(GameMode.PVAI)} className={`flex-1 py-1.5 text-[10px] font-bold rounded flex justify-center items-center gap-1 ${gameMode === GameMode.PVAI ? 'bg-indigo-600 text-white' : 'text-slate-500'}`}><Cpu className="w-3 h-3" /> Play AI</button>
             <button onClick={() => toggleGameMode(GameMode.ONLINE)} className={`flex-1 py-1.5 text-[10px] font-bold rounded flex justify-center items-center gap-1 ${gameMode === GameMode.ONLINE ? 'bg-emerald-600 text-white' : 'text-slate-500'}`}><Globe className="w-3 h-3" /> Play Friend</button>
+          </div>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-[10px] text-slate-400">Theme</span>
+            <select value={boardTheme} onChange={(e) => setBoardTheme(e.target.value as any)} className="text-[10px] bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-300">
+              <option value="turkish">Turkish</option>
+              <option value="classic">Classic</option>
+              <option value="neon">Neon</option>
+            </select>
           </div>
 
           {/* Turn Indicator */}
