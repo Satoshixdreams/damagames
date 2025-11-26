@@ -1,4 +1,9 @@
 {
+  "accountAssociation": {
+    "header": "eyJmaWQiOjUyMDUxNCwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweEYyMDRCOWU2MDQwZDAxZDg0RGZFRkMzMTRhOENFZDM0OEE4OEJFNTkifQ",
+    "payload": "eyJkb21haW4iOiJuZXdkYW1hLnZlcmNlbC5hcHAifQ",
+    "signature": "dwkaAjmZDJwhaiGgYwugVmhoAvQiQYThhGNJwHkw1ghmEKHNA2f+iFFozwyPsEYfqiBBVeg2m2S/HgdH8sR2+xw="
+  },
   "miniapp": {
     "version": "1",
     "name": "Checkers",
