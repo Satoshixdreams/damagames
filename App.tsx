@@ -446,43 +446,19 @@ const App: React.FC = () => {
 
   const shareInvite = async () => {
     if (!myPeerId) return;
-
+    if (!farcasterUser) {
+      setShareBtnLabel('Farcaster required');
+      setTimeout(() => setShareBtnLabel('Share Invite'), 2000);
+      return;
+    }
     const url = new URL(window.location.href);
     url.searchParams.set('join', myPeerId);
     const shareUrl = url.toString();
     const shareText = "Play Turkish Dama with me! 🟢 vs ⚪️";
-
-    // Strategy 1: Farcaster Deep Link (Compose)
-    // If we are inside Farcaster (have a user), we can deep link to compose
-    if (farcasterUser) {
-      setShareBtnLabel("Opening...");
-      const composeUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
-      openExternalUrl(composeUrl);
-      setTimeout(() => setShareBtnLabel("Share Invite"), 2000);
-      return;
-    }
-
-    // Strategy 2: Native Share Sheet
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'Play Dama',
-          text: shareText,
-          url: shareUrl
-        });
-      } catch (err) {
-        console.log('Share cancelled');
-      }
-    } else {
-      // Strategy 3: Clipboard Fallback
-      try {
-        await navigator.clipboard.writeText(shareUrl);
-        setShareBtnLabel("Copied!");
-        setTimeout(() => setShareBtnLabel("Share Invite"), 2000);
-      } catch (e) {
-        alert("Could not copy link. Here is your code: " + myPeerId);
-      }
-    }
+    setShareBtnLabel("Opening...");
+    const composeUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
+    openExternalUrl(composeUrl);
+    setTimeout(() => setShareBtnLabel("Share Invite"), 2000);
   };
 
   if (isInitializing) {
@@ -624,9 +600,15 @@ const App: React.FC = () => {
                 </div>
               ) : (
                 <div className="animate-in fade-in zoom-in duration-300">
-                  <button onClick={shareInvite} className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded flex items-center justify-center gap-2 mb-2 animate-pulse shadow-lg shadow-emerald-500/20 transition-all active:scale-95">
-                    {shareBtnLabel === 'Copied!' ? <CheckCheck className="w-4 h-4" /> : <Share2 className="w-4 h-4" />} {shareBtnLabel}
-                  </button>
+                  {farcasterUser ? (
+                    <button onClick={shareInvite} className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded flex items-center justify-center gap-2 mb-2 animate-pulse shadow-lg shadow-emerald-500/20 transition-all active:scale-95">
+                      {shareBtnLabel === 'Copied!' ? <CheckCheck className="w-4 h-4" /> : <Share2 className="w-4 h-4" />} {shareBtnLabel}
+                    </button>
+                  ) : (
+                    <button onClick={() => setShowConnectModal(true)} className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded flex items-center justify-center gap-2 mb-2 shadow-lg shadow-indigo-500/20 transition-all active:scale-95">
+                      <Link className="w-4 h-4" /> Connect Farcaster to Invite
+                    </button>
+                  )}
 
                   {!showJoinInput ? (
                     <div className="text-center mt-2">
