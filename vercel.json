@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    {
+      "source": "/.well-known/farcaster.json",
+      "destination": "/api/manifest-redirect"
+    }
+  ]
+}
+
