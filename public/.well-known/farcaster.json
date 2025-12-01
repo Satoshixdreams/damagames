@@ -1,4 +1,9 @@
 {
+  "accountAssociation": {
+    "header": "",
+    "payload": "",
+    "signature": ""
+  },
   "miniapp": {
     "name": "Checkers",
     "version": "1",
@@ -27,11 +32,6 @@
     "ogDescription": "Jump into a quick match, invite friends, or practice with AI hints.",
     "ogImageUrl": "https://damagames.vercel.app/checkers-logo.png",
     "castShareUrl": "https://damagames.vercel.app/?castShare=1"
-  },
-  "accountAssociation": {
-    "header": "",
-    "payload": "",
-    "signature": ""
   },
   "baseBuilder": {
     "ownerAddress": "0x2fc3bE228078Cbef235B9eb44d1eEB4943209f95"
