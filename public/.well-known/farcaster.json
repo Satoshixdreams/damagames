@@ -1,14 +1,11 @@
 {
-  "accountAssociation": {
-    "header": "eyJmaWQiOjUyMDUxNCwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweEYyMDRCOWU2MDQwZDAxZDg0RGZFRkMzMTRhOENFZDM0OEE4OEJFNTkifQ",
-    "payload": "eyJkb21haW4iOiJkYW1hZ2FtZXMudmVyY2VsLmFwcCJ9",
-    "signature": "rLLYt3HFRlv8nOsbUAditOyejqsrj9uzRDOEdH/gwP8c/iEiux95lRreC5pz0GpCvsF3U3YSyRFsG6hLZQCxSxs="
-  },
-  "miniapp": {
+  "frame": {
     "version": "1",
     "name": "Checkers",
-    "homeUrl": "https://damagames.vercel.app",
     "iconUrl": "https://damagames.vercel.app/checkers-logo.png",
+    "homeUrl": "https://damagames.vercel.app",
+    "imageUrl": "https://damagames.vercel.app/checkers-logo.png",
+    "buttonTitle": "Play Checkers",
     "splashImageUrl": "https://damagames.vercel.app/checkers-logo.png",
     "splashBackgroundColor": "#0f172a",
     "webhookUrl": "https://damagames.vercel.app/api/webhook",
@@ -22,16 +19,19 @@
       "games",
       "checkers",
       "board",
-      "social"
+      "social",
+      "play"
     ],
     "heroImageUrl": "https://damagames.vercel.app/checkers-logo.png",
-    "castShareUrl": "https://damagames.vercel.app/?castShare=1",
     "tagline": "Invite. Play. Win.",
     "ogTitle": "Checkers — Play with friends",
     "ogDescription": "Jump into a quick match, invite friends, or practice with AI hints.",
-    "ogImageUrl": "https://damagames.vercel.app/checkers-logo.png"
+    "ogImageUrl": "https://damagames.vercel.app/checkers-logo.png",
+    "castShareUrl": "https://damagames.vercel.app/?castShare=1"
   },
-  "baseBuilder": {
-    "ownerAddress": "0x2fc3bE228078Cbef235B9eb44d1eEB4943209f95"
+  "accountAssociation": {
+    "header": "eyJmaWQiOjUyMDUxNCwidHlwZSI6ImF1dGgiLCJrZXkiOiIweGY1MzIxYmJhNTE1MThGMDNkZEM0MDU2Q0JjOTMxRDg5NTZjNDgyYUMifQ",
+    "payload": "eyJkb21haW4iOiJkYW1hZ2FtZXMudmVyY2VsLmFwcCJ9",
+    "signature": "xlsOnBoDNASWC4/kMWA/BlW1EW5loU+UzGz3MeiVVrgH5njC54BE8qg+HN6R1nOP0ZqHnrcxARjib2Da1AX7uxw="
   }
 }
