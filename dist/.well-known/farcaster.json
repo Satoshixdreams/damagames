@@ -1,8 +1,8 @@
 {
   "accountAssociation": {
-    "header": "eyJmaWQiOjUyMDUxNCwidHlwZSI6ImF1dGgiLCJrZXkiOiIweGY1MzIxYmJhNTE1MThGMDNkZEM0MDU2Q0JjOTMxRDg5NTZjNDgyYUMifQ",
-    "payload": "eyJkb21haW4iOiJkYW1hZ2FtZXMudmVyY2VsLmFwcCJ9",
-    "signature": "xlsOnBoDNASWC4/kMWA/BlW1EW5loU+UzGz3MeiVVrgH5njC54BE8qg+HN6R1nOP0ZqHnrcxARjib2Da1AX7uxw="
+    "header": "",
+    "payload": "",
+    "signature": ""
   },
   "miniapp": {
     "name": "Checkers",
@@ -10,7 +10,6 @@
     "iconUrl": "https://damagames.vercel.app/checkers-logo.png",
     "homeUrl": "https://damagames.vercel.app",
     "imageUrl": "https://damagames.vercel.app/checkers-logo.png",
-    "buttonTitle": "Play Checkers",
     "splashImageUrl": "https://damagames.vercel.app/checkers-logo.png",
     "splashBackgroundColor": "#0f172a",
     "webhookUrl": "https://damagames.vercel.app/api/webhook",
