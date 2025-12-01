@@ -57,6 +57,16 @@ export const getFarcasterContext = async (): Promise<FarcasterUser | null> => {
   }
 };
 
+export const signIn = async (nonce: string): Promise<any> => {
+  try {
+    const result = await sdk.actions.signIn({ nonce });
+    return result;
+  } catch (e) {
+    console.error("Farcaster Sign In failed", e);
+    return null;
+  }
+};
+
 export const openExternalUrl = (url: string) => {
   try {
     sdk.actions.openUrl(url);
